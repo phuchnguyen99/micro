@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
         scanBasePackages = {
-                "com.microservicepractice.customer",
-                "com.microservicepractice.amqp",
-                "com.microservicepractice.client"
+                "com.pnguye38.customer",
+                "com.pnguye38.client"
         }
 )
 public class CustomerApplication {
