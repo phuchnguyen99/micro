@@ -8,7 +8,7 @@
         <artifactId>micro</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
+    <packaging>jar</packaging>
     <groupId>com.pnguye38.customer</groupId>
     <artifactId>customer</artifactId>
     <dependencies>
@@ -18,12 +18,21 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.pnguye38.amqp</groupId>
+            <artifactId>amqp</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>

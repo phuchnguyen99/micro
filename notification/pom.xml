@@ -13,8 +13,17 @@
     <artifactId>notification</artifactId>
     <dependencies>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,6 +32,11 @@
         <dependency>
             <groupId>com.pnguye38.client</groupId>
             <artifactId>client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pnguye38.amqp</groupId>
+            <artifactId>amqp</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
