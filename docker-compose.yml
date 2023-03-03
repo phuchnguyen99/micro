@@ -1,4 +1,37 @@
 services:
+  mysqldb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=admin
+    ports:
+      - '13306:13306'
+    networks:
+      - mysqldb
+    volumes:
+      - mysqldb:/var/lib/mysql
+    restart: unless-stopped
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8085:80
+    environment:
+      - PMA_ARBITRARY=1
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+#      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -18,17 +51,92 @@ services:
     container_name: zipkin
     ports:
       - "9411:9411"
+    networks:
+      - spring
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
-
+    networks:
+      - spring
+  eurekaserver:
+    image: phuchnguyen99/eurekaserver:latest
+    container_name: eurekaserver
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+  apigw:
+    image: phuchnguyen99/apigw:latest
+    container_name: apigw
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eurekaserver
+  fraud:
+    image: phuchnguyen99/fraud:latest
+    container_name: fraud
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eurekaserver
+      - mysqldb
+  customer:
+    image: phuchnguyen99/customer:latest
+    container_name: customer
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eurekaserver
+      - postgres
+      - rabbitmq
+  notification:
+    image: phuchnguyen99/notification:latest
+    container_name: notification
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - zipkin
+      - eurekaserver
+      - postgres
+      - rabbitmq
 networks:
+  mysqldb:
+    driver: bridge
   postgres:
+    driver: bridge
+  spring:
     driver: bridge
 
 volumes:
   postgres:
+  phpmyadmin:
   pgadmin:
+  mysqldb:
