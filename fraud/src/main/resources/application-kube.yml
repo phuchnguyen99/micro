@@ -1,0 +1,22 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: fraud
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://mysql:3306/frauddb
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: 'true'
+  zipkin:
+    base-url: http://zipkin:9411/
+eureka:
+  client:
+    base-url: http://eurekaser:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    enabled: false

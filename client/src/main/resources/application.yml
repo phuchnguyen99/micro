@@ -3,3 +3,5 @@ server:
 spring:
   application:
     name: client
+  main:
+    allow-bean-definition-overriding: true
